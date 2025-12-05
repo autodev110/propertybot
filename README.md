@@ -14,7 +14,7 @@ Internal real estate buyer assistant built with Next.js, TypeScript, Tailwind, G
 - `AGENT_SIGNATURE` (optional) – override the default footer appended to emails
 
 ## Data storage
-- File-based storage under `data/`
+- File-based storage under `data/` (override base with `DATA_DIR` env var; on Vercel it defaults to `/tmp/propertybot`)
   - `data/clients/{clientId}.json`
   - `data/searches/{searchId}.json`
   - `data/logs/emails.log` (JSON lines)

@@ -8,7 +8,10 @@ import {
   SearchSessionSummary,
 } from "./types";
 
-const dataDir = path.join(process.cwd(), "data");
+// On Vercel the filesystem is read-only except /tmp; allow override via env for portability.
+const dataDir =
+  process.env.DATA_DIR ||
+  (process.env.VERCEL ? path.join("/tmp", "propertybot") : path.join(process.cwd(), "data"));
 const clientsDir = path.join(dataDir, "clients");
 const searchesDir = path.join(dataDir, "searches");
 
