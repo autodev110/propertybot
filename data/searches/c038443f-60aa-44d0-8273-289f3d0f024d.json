@@ -1,0 +1,131 @@
+{
+  "id": "c038443f-60aa-44d0-8273-289f3d0f024d",
+  "clientId": "c7480ce5-f250-42a1-be15-450e3a7907dc",
+  "createdAt": "2025-12-05T22:22:36.468Z",
+  "preferredLocation": "nj",
+  "clientNotes": "any",
+  "minPrice": 0,
+  "maxPrice": 1000000,
+  "zillowSearchUrl": "https://www.zillow.com/homes/nj_rb/",
+  "candidateCount": 65,
+  "evaluatedProperties": [
+    {
+      "id": "78a31ea1-0c1d-4c3f-a6cc-8486e91e483d",
+      "zillowUrl": "https://www.zillow.com/homedetail/MobileAppHDPShopperPlatformServicePage.htm?fromApp=true&p=ipad&variant=SHOWCASE#zpid=40080326&homeDetailsVariant=SHOWCASE&webviewLayout=doubleScroll&showFactsAndFeatures=true&fromApp=true&gmaps=false&streetview=false",
+      "address": "1042 Battle Hill Terrace, Union Twp., NJ, 07083",
+      "city": "Union Twp.",
+      "state": "NJ",
+      "zipcode": "07083",
+      "price": 729000,
+      "beds": 4,
+      "baths": 3,
+      "sqft": 2134,
+      "daysOnMarket": 2,
+      "aiScore": 75,
+      "aiPros": [
+        "4 beds, 3 baths",
+        "Relatively new listing (2 days on market)"
+      ],
+      "aiCons": [
+        "Higher price point at $729,000",
+        "Sqft on the lower end (2134)"
+      ],
+      "aiRationale": "This property aligns with the client's location preference and offers a good number of bedrooms and bathrooms. The main drawback is the price.",
+      "rsapiRaw": null
+    },
+    {
+      "id": "d4ea48df-d933-4a85-88f0-984797b5c580",
+      "zillowUrl": "https://www.zillow.com/homedetail/MobileAppHDPShopperPlatformServicePage.htm?fromApp=true&p=ipad&variant=SHOWCASE#zpid=38096201&homeDetailsVariant=SHOWCASE&webviewLayout=doubleScroll&showFactsAndFeatures=true&fromApp=true&gmaps=false&streetview=false",
+      "address": "47 Bon Air Dr, Marlton, NJ, 08053",
+      "city": "Marlton",
+      "state": "NJ",
+      "zipcode": "08053",
+      "price": 599900,
+      "beds": 4,
+      "baths": 3,
+      "sqft": 1868,
+      "daysOnMarket": 2,
+      "aiScore": 70,
+      "aiPros": [
+        "4 beds, 3 baths",
+        "Newer listing (2 days on market)"
+      ],
+      "aiCons": [
+        "Price point is relatively high at $599,900",
+        "Sqft on the lower end (1868)"
+      ],
+      "aiRationale": "This property offers a good number of bedrooms and bathrooms at a slightly lower price. The square footage is a bit low, but still worth considering.",
+      "rsapiRaw": null
+    },
+    {
+      "id": "593820b5-d6ad-4ea9-a6f3-b3e9f451cd2e",
+      "zillowUrl": "https://www.zillow.com/homedetail/MobileAppHDPShopperPlatformServicePage.htm?fromApp=true&p=ipad&variant=SHOWCASE#zpid=71830365&homeDetailsVariant=SHOWCASE&webviewLayout=doubleScroll&showFactsAndFeatures=true&fromApp=true&gmaps=false&streetview=false",
+      "address": "1007 Inland Rd, Forked River, NJ, 08731",
+      "city": "Forked River",
+      "state": "NJ",
+      "zipcode": "08731",
+      "price": 475000,
+      "beds": 4,
+      "baths": 3,
+      "sqft": 1896,
+      "daysOnMarket": 2,
+      "aiScore": 70,
+      "aiPros": [
+        "4 beds, 3 baths",
+        "Relatively new listing (2 days on market)"
+      ],
+      "aiCons": [
+        "Price point is relatively high at $475,000"
+      ],
+      "aiRationale": "This property offers a good number of bedrooms and bathrooms. The square footage is decent, but still worth considering.",
+      "rsapiRaw": null
+    },
+    {
+      "id": "5b535c16-0986-46e8-9043-d2f57a10df64",
+      "zillowUrl": "https://www.zillow.com/homedetail/MobileAppHDPShopperPlatformServicePage.htm?fromApp=true&p=ipad&variant=FOR_SALE#zpid=120726124&homeDetailsVariant=FOR_SALE&webviewLayout=doubleScroll&showFactsAndFeatures=true&fromApp=true&gmaps=false&streetview=false",
+      "address": "5 Concord Blvd, Sicklerville, NJ, 08081",
+      "city": "Sicklerville",
+      "state": "NJ",
+      "zipcode": "08081",
+      "price": 400000,
+      "beds": 4,
+      "baths": 3,
+      "sqft": 2202,
+      "daysOnMarket": 6,
+      "aiScore": 65,
+      "aiPros": [
+        "4 beds, 3 baths",
+        "Lower price at $400,000",
+        "Larger sqft (2202)"
+      ],
+      "aiCons": [
+        "No major cons detected."
+      ],
+      "aiRationale": "This property offers a good amount of space at a reasonable price, making it potentially suitable for the client.",
+      "rsapiRaw": null
+    },
+    {
+      "id": "38a0dd6f-e06c-455e-833f-fe7d062256af",
+      "zillowUrl": "https://www.zillow.com/homedetail/MobileAppHDPShopperPlatformServicePage.htm?fromApp=true&p=ipad&variant=SHOWCASE#zpid=38260340&homeDetailsVariant=SHOWCASE&webviewLayout=doubleScroll&showFactsAndFeatures=true&fromApp=true&gmaps=false&streetview=false",
+      "address": "2839 Garwood Rd, Sicklerville, NJ, 08081",
+      "city": "Sicklerville",
+      "state": "NJ",
+      "zipcode": "08081",
+      "price": 650000,
+      "beds": 5,
+      "baths": 3,
+      "sqft": 2948,
+      "daysOnMarket": 1,
+      "aiScore": 60,
+      "aiPros": [
+        "5 beds, 3 baths",
+        "Larger sqft (2948)"
+      ],
+      "aiCons": [
+        "Price point is relatively high at $650,000"
+      ],
+      "aiRationale": "This property offers a good amount of space at a reasonable price, making it potentially suitable for the client.",
+      "rsapiRaw": null
+    }
+  ]
+}

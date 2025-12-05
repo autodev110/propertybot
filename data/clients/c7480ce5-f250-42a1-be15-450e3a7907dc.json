@@ -1,0 +1,32 @@
+{
+  "id": "c7480ce5-f250-42a1-be15-450e3a7907dc",
+  "name": "dan",
+  "email": "dbux777@gmail.com",
+  "createdAt": "2025-12-05T22:18:42.850Z",
+  "searches": [
+    {
+      "id": "05e942ed-8989-4408-9a74-9547a1ef90a5",
+      "createdAt": "2025-12-05T22:24:01.665Z",
+      "preferredLocation": "camden county",
+      "hasEmailSent": false,
+      "minPrice": 0,
+      "maxPrice": 1000000
+    },
+    {
+      "id": "c038443f-60aa-44d0-8273-289f3d0f024d",
+      "createdAt": "2025-12-05T22:22:36.468Z",
+      "preferredLocation": "nj",
+      "hasEmailSent": false,
+      "minPrice": 0,
+      "maxPrice": 1000000
+    },
+    {
+      "id": "056a6805-8a36-468d-9358-0aca2741e3c3",
+      "createdAt": "2025-12-05T22:18:45.844Z",
+      "preferredLocation": "08003",
+      "hasEmailSent": true,
+      "minPrice": 0,
+      "maxPrice": 1000000
+    }
+  ]
+}

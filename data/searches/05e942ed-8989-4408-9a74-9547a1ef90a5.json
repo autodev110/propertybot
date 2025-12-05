@@ -1,0 +1,129 @@
+{
+  "id": "05e942ed-8989-4408-9a74-9547a1ef90a5",
+  "clientId": "c7480ce5-f250-42a1-be15-450e3a7907dc",
+  "createdAt": "2025-12-05T22:24:01.665Z",
+  "preferredLocation": "camden county",
+  "clientNotes": "any",
+  "minPrice": 0,
+  "maxPrice": 1000000,
+  "zillowSearchUrl": "https://www.zillow.com/homes/camden%20county_rb/",
+  "candidateCount": 80,
+  "evaluatedProperties": [
+    {
+      "id": "555ecb36-23f5-4177-a387-8ddf12083ca5",
+      "zillowUrl": "https://www.zillow.com/homedetail/MobileAppHDPShopperPlatformServicePage.htm?fromApp=true&p=ipad&variant=SHOWCASE#zpid=38260340&homeDetailsVariant=SHOWCASE&webviewLayout=doubleScroll&showFactsAndFeatures=true&fromApp=true&gmaps=false&streetview=false",
+      "address": "2839 Garwood Rd, Sicklerville, NJ, 08081",
+      "city": "Sicklerville",
+      "state": "NJ",
+      "zipcode": "08081",
+      "price": 650000,
+      "beds": 5,
+      "baths": 3,
+      "sqft": 2948,
+      "daysOnMarket": 1,
+      "aiScore": 80,
+      "aiPros": [
+        "5 beds",
+        "Located in Camden County",
+        "Large sqft"
+      ],
+      "aiCons": [
+        "Relatively High Price"
+      ],
+      "aiRationale": "Large home in preferred location. Price is on the higher end.",
+      "rsapiRaw": null
+    },
+    {
+      "id": "2008b08c-a105-4763-91a9-336f229d638e",
+      "zillowUrl": "https://www.zillow.com/homedetail/MobileAppHDPShopperPlatformServicePage.htm?fromApp=true&p=ipad&variant=FOR_SALE#zpid=38250669&homeDetailsVariant=FOR_SALE&webviewLayout=doubleScroll&showFactsAndFeatures=true&fromApp=true&gmaps=false&streetview=false",
+      "address": "51 Linden Dr, Blackwood, NJ, 08012",
+      "city": "Blackwood",
+      "state": "NJ",
+      "zipcode": "08012",
+      "price": 499999,
+      "beds": 4,
+      "baths": 4,
+      "sqft": 2931,
+      "daysOnMarket": 8,
+      "aiScore": 75,
+      "aiPros": [
+        "4 beds",
+        "4 baths",
+        "Located in Camden County",
+        "Large sqft"
+      ],
+      "aiCons": [],
+      "aiRationale": "Good size and location within Camden County.",
+      "rsapiRaw": null
+    },
+    {
+      "id": "7ad3280b-bb7f-43f4-b900-e86aabdc2496",
+      "zillowUrl": "https://www.zillow.com/homedetail/MobileAppHDPShopperPlatformServicePage.htm?fromApp=true&p=ipad&variant=SHOWCASE#zpid=38235073&homeDetailsVariant=SHOWCASE&webviewLayout=doubleScroll&showFactsAndFeatures=true&fromApp=true&gmaps=false&streetview=false",
+      "address": "1109 Winding Dr, Cherry Hill, NJ, 08003",
+      "city": "Cherry Hill",
+      "state": "NJ",
+      "zipcode": "08003",
+      "price": 919000,
+      "beds": 4,
+      "baths": 4,
+      "sqft": 4721,
+      "daysOnMarket": 28,
+      "aiScore": 70,
+      "aiPros": [
+        "4 beds",
+        "4 baths",
+        "Located in Camden County",
+        "Very Large sqft"
+      ],
+      "aiCons": [
+        "High Price"
+      ],
+      "aiRationale": "Very large property in cherry hill but price is high.",
+      "rsapiRaw": null
+    },
+    {
+      "id": "6a219b41-e115-4c1c-b846-5ce7541cb2ca",
+      "zillowUrl": "https://www.zillow.com/homedetail/MobileAppHDPShopperPlatformServicePage.htm?fromApp=true&p=ipad&variant=FOR_SALE#zpid=88850161&homeDetailsVariant=FOR_SALE&webviewLayout=doubleScroll&showFactsAndFeatures=true&fromApp=true&gmaps=false&streetview=false",
+      "address": "994 Haddon Ave, Collingswood, NJ, 08108",
+      "city": "Collingswood",
+      "state": "NJ",
+      "zipcode": "08108",
+      "price": 399900,
+      "beds": 10,
+      "baths": 3,
+      "sqft": 3528,
+      "daysOnMarket": 6,
+      "aiScore": 70,
+      "aiPros": [
+        "10 beds",
+        "Located in Camden County",
+        "Large sqft"
+      ],
+      "aiCons": [],
+      "aiRationale": "Large home with 10 beds, worth investigation.",
+      "rsapiRaw": null
+    },
+    {
+      "id": "acb200f7-6bf0-447c-ba06-56680dcd5006",
+      "zillowUrl": "https://www.zillow.com/homedetail/MobileAppHDPShopperPlatformServicePage.htm?fromApp=true&p=ipad&variant=FOR_SALE#zpid=38264404&homeDetailsVariant=FOR_SALE&webviewLayout=doubleScroll&showFactsAndFeatures=true&fromApp=true&gmaps=false&streetview=false",
+      "address": "4 Firethorn Ln, Sicklerville, NJ, 08081",
+      "city": "Sicklerville",
+      "state": "NJ",
+      "zipcode": "08081",
+      "price": 450000,
+      "beds": 4,
+      "baths": 3,
+      "sqft": 3614,
+      "daysOnMarket": 42,
+      "aiScore": 65,
+      "aiPros": [
+        "4 beds",
+        "Located in Camden County",
+        "Very Large sqft"
+      ],
+      "aiCons": [],
+      "aiRationale": "Very large property located in Camden County.",
+      "rsapiRaw": null
+    }
+  ]
+}

@@ -1,0 +1,101 @@
+{
+  "id": "056a6805-8a36-468d-9358-0aca2741e3c3",
+  "clientId": "c7480ce5-f250-42a1-be15-450e3a7907dc",
+  "createdAt": "2025-12-05T22:18:45.844Z",
+  "preferredLocation": "08003",
+  "clientNotes": "the nicest house in cherry hill with most room for negation so most days on market",
+  "minPrice": 0,
+  "maxPrice": 1000000,
+  "zillowSearchUrl": "https://www.zillow.com/homes/08003_rb/",
+  "candidateCount": 25,
+  "evaluatedProperties": [
+    {
+      "id": "e1eeb022-0a1c-4414-83a6-9cd620160478",
+      "zillowUrl": "https://www.zillow.com/homedetail/MobileAppHDPShopperPlatformServicePage.htm?fromApp=true&p=ipad&variant=FOR_SALE#zpid=38231706&homeDetailsVariant=FOR_SALE&webviewLayout=doubleScroll&showFactsAndFeatures=true&fromApp=true&gmaps=false&streetview=false",
+      "address": "800 Marlowe Rd, Cherry Hill, NJ, 08003",
+      "city": "Cherry Hill",
+      "state": "NJ",
+      "zipcode": "08003",
+      "price": 599900,
+      "beds": 4,
+      "baths": 3,
+      "sqft": 2056,
+      "daysOnMarket": 297,
+      "aiScore": 95,
+      "aiPros": [
+        "Longest days on market (297) indicates room for negotiation",
+        "Located in preferred zip code",
+        "4 beds, suitable for most families"
+      ],
+      "aiCons": [
+        "Lower end of 'nicest house' criteria"
+      ],
+      "aiRationale": "This property stands out due to its significantly longer time on the market, fulfilling the client's criteria for negotiation potential. While not the largest or most expensive, it offers a balance of size and negotiability.",
+      "rsapiRaw": null
+    },
+    {
+      "id": "bf9fa0e8-0c59-45f8-aa47-3736ab06e423",
+      "zillowUrl": "https://www.zillow.com/homedetail/MobileAppHDPShopperPlatformServicePage.htm?fromApp=true&p=ipad&variant=FOR_SALE#zpid=38234351&homeDetailsVariant=FOR_SALE&webviewLayout=doubleScroll&showFactsAndFeatures=true&fromApp=true&gmaps=false&streetview=false",
+      "address": "22 Country Walk, Cherry Hill, NJ, 08003",
+      "city": "Cherry Hill",
+      "state": "NJ",
+      "zipcode": "08003",
+      "price": 730000,
+      "beds": 4,
+      "baths": 3,
+      "sqft": 2693,
+      "daysOnMarket": 177,
+      "aiScore": 80,
+      "aiPros": [
+        "High days on market (177) means some room for negotiation",
+        "Good size at 2693 sqft",
+        "Located in preferred zip code"
+      ],
+      "aiCons": [
+        "Not the 'nicest' house"
+      ],
+      "aiRationale": "This property offers a considerable square footage and a high 'days on market', offering negotiation potential and fitting the client's location preference. However, it might not be the 'nicest' option available.",
+      "rsapiRaw": null
+    },
+    {
+      "id": "8eea45ac-01d6-40ce-a2a4-b67f3eb0ed81",
+      "zillowUrl": "https://www.zillow.com/homedetail/MobileAppHDPShopperPlatformServicePage.htm?fromApp=true&p=ipad&variant=FOR_SALE#zpid=38234995&homeDetailsVariant=FOR_SALE&webviewLayout=doubleScroll&showFactsAndFeatures=true&fromApp=true&gmaps=false&streetview=false",
+      "address": "1869 W Point Dr, Cherry Hill, NJ, 08003",
+      "city": "Cherry Hill",
+      "state": "NJ",
+      "zipcode": "08003",
+      "price": 609900,
+      "beds": 4,
+      "baths": 3,
+      "sqft": 2337,
+      "daysOnMarket": 156,
+      "aiScore": 75,
+      "aiPros": [
+        "Reasonable days on market (156) suggests some negotiation possible",
+        "4 beds, suitable for most families",
+        "Located in preferred zip code"
+      ],
+      "aiCons": [
+        "May not be considered the 'nicest' house"
+      ],
+      "aiRationale": "This property offers a decent number of days on the market and meets the bed count criteria. It is located in the preferred zip code, however, the 'nicest house' requirement may not be satisfied.",
+      "rsapiRaw": null
+    }
+  ],
+  "selectedPropertyIds": [
+    "e1eeb022-0a1c-4414-83a6-9cd620160478",
+    "bf9fa0e8-0c59-45f8-aa47-3736ab06e423",
+    "8eea45ac-01d6-40ce-a2a4-b67f3eb0ed81"
+  ],
+  "finalEmail": {
+    "subject": "Cherry Hill Properties - Your Preferences",
+    "body": "Hi Dan Nik,\n\nFollowing up on your request, here are a few properties in 08003 that have been on the market for a while, potentially offering room for negotiation, and aiming to be among the 'nicest' in the area.\n\nProperty 1: 800 Marlowe Rd, Cherry Hill, NJ, 08003\nPrice: $599,900, 4 beds, 3 baths, 2056 sqft. \nThis property stands out due to its significantly longer time on the market. While it may not be the largest or most expensive, it offers a balance of size and negotiability.\n\nProperty 2: 22 Country Walk, Cherry Hill, NJ, 08003\nPrice: $730,000, 4 beds, 3 baths, 2693 sqft.\nThis property offers considerable square footage and has also been on the market for a while, suggesting potential for negotiation. It fits the client's location preference but may not be the 'nicest' option.\n\nProperty 3: 1869 W Point Dr, Cherry Hill, NJ, 08003\nPrice: $609,900, 4 beds, 3 baths, 2337 sqft.\nThis property also offers a decent number of days on the market and meets the bed count criteria. It is located in the preferred zip code, but the 'nicest house' requirement may not be completely satisfied.\n\nPlease let me know if you'd like to schedule a viewing for any of these properties or if you have any further questions.\n\nDominic Julian, Realtor\nRealtor® | Iron Valley Real Estate Keystone\nA: 1507 Route 61 Hwy Pottsville, Pa 17901\nP: (570)-985-6059 W: (570)-590-0135\nE: Domjulian31@gmail.com\nW:www.ironvalleyrealestatekeystone.com\n\nNOTICE\nThe Real Estate Law requires that I provide you with a written consumer notice that describes the various business relationship choices that you may have with a real estate licensee. Since we are discussing real estate without you having the benefit of the Consumer Notice, I have the duty to advise you that any information you give me at this time is not considered to be confidential, and any information you give me will not be considered confidential unless and until you and I enter into a business relationship. At our first meeting I will provide you with a written consumer notice which explains those business relationships and my corresponding duties to you.\n\nWIRE FRAUD ALERT: As your realty services provider, I will NEVER send you wiring instructions. Before wiring any money, call the intended recipient at a number that you know is valid to confirm the instructions. Do not hesitate to contact me if you need assistance with verification.",
+    "includedPropertyIds": [
+      "e1eeb022-0a1c-4414-83a6-9cd620160478",
+      "bf9fa0e8-0c59-45f8-aa47-3736ab06e423",
+      "8eea45ac-01d6-40ce-a2a4-b67f3eb0ed81"
+    ],
+    "sentAt": "2025-12-05T22:19:45.961Z",
+    "messageId": "<63dff500-f51f-ef31-418c-8b54412fed08@gmail.com>"
+  }
+}
