@@ -54,9 +54,9 @@ async function kvSaveClient(client: Client) {
 
 async function kvListClients(): Promise<Client[]> {
   if (!redis) return [];
-  const ids = await redis.smembers<string>(clientsIndexKey);
+  const ids = (await redis.smembers<string[]>(clientsIndexKey)) || [];
   if (!ids || ids.length === 0) return [];
-  const rows = await redis.mget<Client[]>(ids.map((id) => clientKey(id)));
+  const rows = await redis.mget<Client>(...ids.map((id) => clientKey(id)));
   const clients: Client[] = [];
   ids.forEach((id, idx) => {
     const c = rows[idx] as Client | null;
