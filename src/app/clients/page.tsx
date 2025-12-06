@@ -61,6 +61,7 @@ export default function ClientsPage() {
             <tr>
               <th className="px-4 py-3">Name</th>
               <th className="px-4 py-3">Email</th>
+              <th className="px-4 py-3">Notes</th>
               <th className="px-4 py-3">Searches</th>
               <th className="px-4 py-3">Last email sent</th>
               <th className="px-4 py-3"></th>
@@ -73,6 +74,9 @@ export default function ClientsPage() {
                 <tr key={client.id} className="hover:bg-slate-50">
                   <td className="px-4 py-3 font-medium text-slate-900">{client.name}</td>
                   <td className="px-4 py-3 text-slate-700">{client.email}</td>
+                  <td className="px-4 py-3 text-slate-700 max-w-[240px]">
+                    {client.notes ? `${client.notes.slice(0, 80)}${client.notes.length > 80 ? "…" : ""}` : "—"}
+                  </td>
                   <td className="px-4 py-3 text-slate-700">{client.searches.length}</td>
                   <td className="px-4 py-3 text-slate-700">
                     {lastSent ? new Date(lastSent.createdAt).toLocaleDateString() : "—"}

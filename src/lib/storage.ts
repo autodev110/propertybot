@@ -37,16 +37,26 @@ const emailKey = (email: string) => `clientEmail:${email.toLowerCase()}`;
 const clientsIndexKey = "clients:index";
 const logsKey = "logs:emails";
 
+function normalizeClient(client: Client): Client {
+  return {
+    ...client,
+    notes: client.notes ?? "",
+  };
+}
+
 async function kvGetClientByEmail(normalizedEmail: string): Promise<Client | null> {
   if (!redis) return null;
   const id = await redis.get<string>(emailKey(normalizedEmail));
   if (!id) return null;
   const client = await redis.get<Client>(clientKey(id));
-  return client || null;
+  return client ? normalizeClient(client) : null;
 }
 
-async function kvSaveClient(client: Client) {
+async function kvSaveClient(client: Client, previousEmail?: string) {
   if (!redis) return;
+  if (previousEmail && previousEmail.toLowerCase() !== client.email.toLowerCase()) {
+    await redis.del(emailKey(previousEmail.toLowerCase()));
+  }
   await redis.set(clientKey(client.id), client);
   await redis.set(emailKey(client.email.toLowerCase()), client.id);
   await redis.sadd(clientsIndexKey, client.id);
@@ -61,7 +71,7 @@ async function kvListClients(): Promise<Client[]> {
   const clients: Client[] = [];
   ids.forEach((id, idx) => {
     const c = rows[idx] as Client | null;
-    if (c) clients.push(c);
+    if (c) clients.push(normalizeClient(c));
   });
   return clients.sort((a, b) => b.createdAt.localeCompare(a.createdAt));
 }
@@ -79,6 +89,7 @@ export async function getOrCreateClientByEmail(name: string, email: string): Pro
   if (kvEnabled && redis) {
     const existing = await kvGetClientByEmail(normalizedEmail);
     if (existing) {
+      existing.notes = existing.notes ?? "";
       if (existing.name !== name) {
         existing.name = name;
         await kvSaveClient(existing);
@@ -89,6 +100,7 @@ export async function getOrCreateClientByEmail(name: string, email: string): Pro
       id: randomUUID(),
       name,
       email,
+      notes: "",
       createdAt: new Date().toISOString(),
       searches: [],
     };
@@ -104,6 +116,7 @@ export async function getOrCreateClientByEmail(name: string, email: string): Pro
     const raw = await fs.readFile(path.join(clientsDir, file), "utf-8");
     const client = JSON.parse(raw) as Client;
     if (client.email.toLowerCase() === normalizedEmail) {
+      client.notes = client.notes ?? "";
       if (client.name !== name) {
         client.name = name;
         await fs.writeFile(clientFilePath(client.id), JSON.stringify(client, null, 2));
@@ -116,6 +129,7 @@ export async function getOrCreateClientByEmail(name: string, email: string): Pro
     id: randomUUID(),
     name,
     email,
+    notes: "",
     createdAt: new Date().toISOString(),
     searches: [],
   };
@@ -123,9 +137,9 @@ export async function getOrCreateClientByEmail(name: string, email: string): Pro
   return newClient;
 }
 
-export async function saveClient(client: Client): Promise<void> {
+export async function saveClient(client: Client, previousEmail?: string): Promise<void> {
   if (kvEnabled && redis) {
-    await kvSaveClient(client);
+    await kvSaveClient(client, previousEmail);
     return;
   }
   await ensureDirs();
@@ -196,7 +210,7 @@ export async function listClients(): Promise<Client[]> {
   for (const file of files) {
     if (!file.endsWith(".json")) continue;
     const raw = await fs.readFile(path.join(clientsDir, file), "utf-8");
-    clients.push(JSON.parse(raw) as Client);
+    clients.push(normalizeClient(JSON.parse(raw) as Client));
   }
   return clients.sort((a, b) => b.createdAt.localeCompare(a.createdAt));
 }
@@ -207,6 +221,22 @@ export async function appendSearchToClient(
 ): Promise<Client> {
   client.searches = [summary, ...client.searches.filter((s) => s.id !== summary.id)];
   await saveClient(client);
+  return client;
+}
+
+export async function updateClient(
+  clientId: string,
+  updates: { name: string; email: string; notes?: string }
+): Promise<Client> {
+  const client = await getClientById(clientId);
+  if (!client) {
+    throw new Error("Client not found");
+  }
+  const previousEmail = client.email;
+  client.name = updates.name.trim();
+  client.email = updates.email.trim();
+  client.notes = (updates.notes ?? "").trim();
+  await saveClient(client, previousEmail);
   return client;
 }
 
@@ -226,12 +256,12 @@ export async function updateSearchSummaryEmailSent(
 export async function getClientById(clientId: string): Promise<Client | null> {
   if (kvEnabled && redis) {
     const client = await redis.get<Client>(clientKey(clientId));
-    return client || null;
+    return client ? normalizeClient(client) : null;
   }
   await ensureDirs();
   try {
     const raw = await fs.readFile(clientFilePath(clientId), "utf-8");
-    return JSON.parse(raw) as Client;
+    return normalizeClient(JSON.parse(raw) as Client);
   } catch (err) {
     return null;
   }

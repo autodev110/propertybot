@@ -16,6 +16,90 @@ function parseDate(value: unknown): string | undefined {
   return undefined;
 }
 
+function extractPhotos(base: any): string[] | undefined {
+  const urls: string[] = [];
+
+  const collectFromOriginalPhotos = (photos: any) => {
+    if (!Array.isArray(photos)) return;
+    for (const photo of photos) {
+      const jpeg = photo?.mixedSources?.jpeg;
+      const webp = photo?.mixedSources?.webp;
+      const sources: any[] = [];
+      if (Array.isArray(jpeg)) sources.push(...jpeg);
+      if (Array.isArray(webp)) sources.push(...webp);
+      for (const src of sources) {
+        const url = src?.url;
+        if (typeof url === "string" && url.startsWith("http")) {
+          urls.push(url);
+        }
+      }
+      if (typeof photo?.url === "string" && photo.url.startsWith("http")) {
+        urls.push(photo.url);
+      }
+    }
+  };
+
+  collectFromOriginalPhotos(base?.originalPhotos);
+  collectFromOriginalPhotos(base?.propertyDetails?.originalPhotos);
+  collectFromOriginalPhotos(base?.property?.originalPhotos);
+
+  const propertyPhotoLinks = base?.media?.propertyPhotoLinks || base?.propertyDetails?.propertyPhotoLinks;
+  if (propertyPhotoLinks) {
+    const candidates = [
+      propertyPhotoLinks.highResolutionLink,
+      propertyPhotoLinks.mediumSizeLink,
+    ];
+    for (const url of candidates) {
+      if (typeof url === "string" && url.startsWith("http")) urls.push(url);
+    }
+  }
+  const allPropertyPhotos = base?.media?.allPropertyPhotos || base?.propertyDetails?.allPropertyPhotos;
+  if (allPropertyPhotos) {
+    const buckets = [allPropertyPhotos.medium, allPropertyPhotos.large];
+    for (const bucket of buckets) {
+      if (Array.isArray(bucket)) {
+        for (const u of bucket) {
+          if (typeof u === "string" && u.startsWith("http")) urls.push(u);
+        }
+      }
+    }
+  }
+
+  const mediaPhotos = base?.media?.photos || base?.propertyDetails?.media?.photos;
+  if (Array.isArray(mediaPhotos)) {
+    for (const p of mediaPhotos) {
+      const url = p?.url || p?.mixedSources?.jpeg?.[0]?.url;
+      if (typeof url === "string" && url.startsWith("http")) {
+        urls.push(url);
+      }
+    }
+  }
+
+  const hero =
+    base?.imgSrc ||
+    base?.image ||
+    base?.imageUrl ||
+    base?.primaryPhoto?.url ||
+    base?.photoUrl ||
+    base?.propertyDetails?.primaryPhoto?.url;
+  if (hero && typeof hero === "string") {
+    urls.unshift(hero);
+  }
+
+  const unique = Array.from(new Set(urls));
+  if (process.env.NODE_ENV !== "production") {
+    console.info("[rsapi] extracted photos", {
+      total: unique.length,
+      sample: unique.slice(0, 5),
+      hasOriginalPhotos: Array.isArray(base?.originalPhotos),
+      hasPropertyDetailsOriginal: Array.isArray(base?.propertyDetails?.originalPhotos),
+      hasMedia: Array.isArray(base?.media?.photos),
+      hasPrimary: !!hero,
+    });
+  }
+  return unique.length ? unique : undefined;
+}
+
 export async function getPropertyDetailsAPI(
   address: string
 ): Promise<SanitizedPropertyDetails | { error: string }> {
@@ -43,6 +127,7 @@ export async function getPropertyDetailsAPI(
       city: base?.city,
       state: base?.state || base?.stateCode,
       zipcode: base?.zipcode || base?.zip,
+      photos: extractPhotos(base),
       county: base?.county,
       yearBuilt: toNumber(base?.yearBuilt),
       bedrooms: toNumber(base?.bedrooms ?? base?.bed),
@@ -75,6 +160,14 @@ export async function getPropertyDetailsAPI(
       zillowUrl: base?.zillowUrl || base?.zillowHomeUrl || base?.link,
       price: toNumber(base?.price ?? base?.homeValue ?? base?.listPrice),
     };
+
+    if (process.env.NODE_ENV !== "production") {
+      console.info("[rsapi] sanitized details", {
+        address: sanitized.streetAddress,
+        photos: sanitized.photos?.length || 0,
+        zillowUrl: sanitized.zillowUrl,
+      });
+    }
 
     return sanitized;
   } catch (error) {

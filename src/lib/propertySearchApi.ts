@@ -9,6 +9,20 @@ export interface RapidApiSearchResult {
   city?: string;
   state?: string;
   zipcode?: string;
+  imageUrl?: string;
+  photos?: string[];
+  media?: {
+    propertyPhotoLinks?: {
+      highResolutionLink?: string;
+      mediumSizeLink?: string;
+    };
+    allPropertyPhotos?: {
+      medium?: string[];
+      large?: string[];
+    };
+    photos?: { url?: string; href?: string; link?: string; originalUrl?: string; mixedSources?: any }[];
+    images?: { url?: string; href?: string; link?: string; originalUrl?: string; mixedSources?: any }[];
+  };
 }
 
 type Provider = {
@@ -41,11 +55,90 @@ function mapSearchResultsArray(raw: any): RapidApiSearchResult[] {
     .filter(Boolean)
     .map((p: any) => {
       const address = p.address || {};
+      const collectUrls = (photos: any) =>
+        Array.isArray(photos)
+          ? photos
+              .map(
+                (ph: any) =>
+                  ph?.url ||
+                  ph?.href ||
+                  ph?.link ||
+                  ph?.originalUrl ||
+                  ph?.mixedSources?.jpeg?.[0]?.url ||
+                  ph?.mixedSources?.webp?.[0]?.url
+              )
+              .filter((u: any) => typeof u === "string" && u.startsWith("http"))
+          : [];
+
+      const propertyPhotoLinks = p.media?.propertyPhotoLinks || {};
+      const allPropertyPhotos = p.media?.allPropertyPhotos || {};
+      const mediaPhotos = [
+        propertyPhotoLinks.highResolutionLink,
+        propertyPhotoLinks.mediumSizeLink,
+        ...(Array.isArray(allPropertyPhotos.medium) ? allPropertyPhotos.medium : []),
+        ...(Array.isArray(allPropertyPhotos.large) ? allPropertyPhotos.large : []),
+        ...(collectUrls(p.media?.photos || p.media?.images || [])),
+      ].filter((u: any) => typeof u === "string" && u.startsWith("http"));
+
+      const hdpPhotos = collectUrls(p.hdpView?.photos);
+      const richMediaPhotos = collectUrls(p.richMedia?.photos);
       const url =
         (p.hdpView?.hdpUrl && `https://www.zillow.com${p.hdpView.hdpUrl}`) ||
         (p.zpid && `https://www.zillow.com/homedetails/${p.zpid}_zpid/`) ||
         p.detailUrl ||
         p.zillowUrl;
+      const hdpImage =
+        p.hdpView?.image?.uri ||
+        p.hdpView?.image?.url ||
+        p.hdpView?.mainImageUrl ||
+        p.hdpView?.photoUrl;
+      const imageUrl =
+        p.imgSrc ||
+        p.image ||
+        p.homeImage ||
+        p?.miniCardPhotos?.[0]?.url ||
+        p?.primaryPhoto?.url ||
+        p?.photos?.[0]?.url ||
+        hdpImage ||
+        mediaPhotos[0] ||
+        hdpPhotos[0] ||
+        richMediaPhotos[0];
+      if (process.env.NODE_ENV !== "production") {
+        console.info("[searchApi] mapped listing", {
+          providerItemKeys: Object.keys(p || {}),
+          imageUrl,
+          mediaPhotosCount: mediaPhotos.length,
+          hdpPhotosCount: hdpPhotos.length,
+          richMediaPhotosCount: richMediaPhotos.length,
+          mediaKeys: p.media ? Object.keys(p.media) : [],
+          hdpViewKeys: p.hdpView ? Object.keys(p.hdpView) : [],
+          richMediaKeys: p.richMedia ? Object.keys(p.richMedia) : [],
+          zillowUrl: url,
+          address: address.streetAddress,
+        });
+        if (!imageUrl && mediaPhotos.length === 0 && hdpPhotos.length === 0 && richMediaPhotos.length === 0) {
+          console.info("[searchApi] no photo sources", {
+            zpid: p.zpid,
+            sampleMedia: Array.isArray(p.media?.photos) ? p.media.photos.slice(0, 1) : null,
+            sampleHdpPhotos: Array.isArray(p.hdpView?.photos) ? p.hdpView.photos.slice(0, 1) : null,
+            sampleRich: Array.isArray(p.richMedia?.photos) ? p.richMedia.photos.slice(0, 1) : null,
+            mediaSnippet: p.media ? JSON.stringify(p.media).slice(0, 500) : null,
+            hdpSnippet: p.hdpView ? JSON.stringify(p.hdpView).slice(0, 500) : null,
+            richSnippet: p.richMedia ? JSON.stringify(p.richMedia).slice(0, 500) : null,
+            propertyPhotoLinks: p.media?.propertyPhotoLinks || null,
+            allPropertyPhotos: p.media?.allPropertyPhotos
+              ? {
+                  mediumCount: Array.isArray(p.media.allPropertyPhotos.medium)
+                    ? p.media.allPropertyPhotos.medium.length
+                    : 0,
+                  largeCount: Array.isArray(p.media.allPropertyPhotos.large)
+                    ? p.media.allPropertyPhotos.large.length
+                    : 0,
+                }
+              : null,
+          });
+        }
+      }
       return {
         zillowUrl: url,
         address: joinAddress({
@@ -62,6 +155,11 @@ function mapSearchResultsArray(raw: any): RapidApiSearchResult[] {
         city: address.city,
         state: address.state,
         zipcode: address.zipcode,
+        imageUrl,
+        photos:
+          mediaPhotos.length || hdpPhotos.length || richMediaPhotos.length
+            ? [...mediaPhotos, ...hdpPhotos, ...richMediaPhotos]
+            : undefined,
       };
     });
 }
@@ -90,18 +188,52 @@ const providers: Provider[] = [
       `https://zillow-working-api.p.rapidapi.com/search?location=${encoded}&status=for_sale`,
     mapResults: (raw) =>
       Array.isArray(raw?.results)
-        ? raw.results.map((item: any) => ({
-            zillowUrl: item?.detailUrl || item?.zillowUrl,
-            address: item?.address,
-            price: toNumber(item?.price),
-            bedrooms: toNumber(item?.bedrooms),
-            bathrooms: toNumber(item?.bathrooms),
-            livingArea: toNumber(item?.livingArea),
-            daysOnZillow: toNumber(item?.daysOnZillow),
-            city: item?.city,
-            state: item?.state,
-            zipcode: item?.zipcode,
-          }))
+        ? raw.results.map((item: any) => {
+            const collectUrls = (photos: any) =>
+              Array.isArray(photos)
+                ? photos
+                    .map(
+                      (ph: any) =>
+                        ph?.url ||
+                        ph?.href ||
+                        ph?.link ||
+                        ph?.originalUrl ||
+                        ph?.mixedSources?.jpeg?.[0]?.url ||
+                        ph?.mixedSources?.webp?.[0]?.url
+                    )
+                    .filter((u: any) => typeof u === "string" && u.startsWith("http"))
+                : [];
+            const propertyPhotoLinks = item?.media?.propertyPhotoLinks || {};
+            const allPropertyPhotos = item?.media?.allPropertyPhotos || {};
+            const mediaPhotos = [
+              propertyPhotoLinks.highResolutionLink,
+              propertyPhotoLinks.mediumSizeLink,
+              ...(Array.isArray(allPropertyPhotos.medium) ? allPropertyPhotos.medium : []),
+              ...(Array.isArray(allPropertyPhotos.large) ? allPropertyPhotos.large : []),
+              ...collectUrls(item?.media?.photos || item?.media?.images || []),
+            ].filter((u: any) => typeof u === "string" && u.startsWith("http"));
+            return {
+              zillowUrl: item?.detailUrl || item?.zillowUrl,
+              address: item?.address,
+              price: toNumber(item?.price),
+              bedrooms: toNumber(item?.bedrooms),
+              bathrooms: toNumber(item?.bathrooms),
+              livingArea: toNumber(item?.livingArea),
+              daysOnZillow: toNumber(item?.daysOnZillow),
+              city: item?.city,
+              state: item?.state,
+              zipcode: item?.zipcode,
+              imageUrl:
+                item?.imgSrc ||
+                item?.image ||
+                item?.homeImage ||
+                item?.miniCardPhotos?.[0]?.url ||
+                item?.primaryPhoto?.url ||
+                item?.photos?.[0]?.url ||
+                mediaPhotos[0],
+              photos: mediaPhotos.length ? mediaPhotos : undefined,
+            };
+          })
         : [],
   },
   {
@@ -110,18 +242,52 @@ const providers: Provider[] = [
     buildUrl: (encoded, _page) => `https://zillow56.p.rapidapi.com/search?location=${encoded}`,
     mapResults: (raw) =>
       Array.isArray(raw?.results)
-        ? raw.results.map((item: any) => ({
-            zillowUrl: item?.detailUrl || item?.url,
-            address: item?.address || item?.streetAddress,
-            price: toNumber(item?.price),
-            bedrooms: toNumber(item?.bedrooms ?? item?.beds),
-            bathrooms: toNumber(item?.bathrooms ?? item?.baths),
-            livingArea: toNumber(item?.livingArea ?? item?.livingAreaValue ?? item?.sqft),
-            daysOnZillow: toNumber(item?.daysOnZillow),
-            city: item?.city,
-            state: item?.state,
-            zipcode: item?.zipcode,
-          }))
+        ? raw.results.map((item: any) => {
+            const collectUrls = (photos: any) =>
+              Array.isArray(photos)
+                ? photos
+                    .map(
+                      (ph: any) =>
+                        ph?.url ||
+                        ph?.href ||
+                        ph?.link ||
+                        ph?.originalUrl ||
+                        ph?.mixedSources?.jpeg?.[0]?.url ||
+                        ph?.mixedSources?.webp?.[0]?.url
+                    )
+                    .filter((u: any) => typeof u === "string" && u.startsWith("http"))
+                : [];
+            const propertyPhotoLinks = item?.media?.propertyPhotoLinks || {};
+            const allPropertyPhotos = item?.media?.allPropertyPhotos || {};
+            const mediaPhotos = [
+              propertyPhotoLinks.highResolutionLink,
+              propertyPhotoLinks.mediumSizeLink,
+              ...(Array.isArray(allPropertyPhotos.medium) ? allPropertyPhotos.medium : []),
+              ...(Array.isArray(allPropertyPhotos.large) ? allPropertyPhotos.large : []),
+              ...collectUrls(item?.media?.photos || item?.media?.images || []),
+            ].filter((u: any) => typeof u === "string" && u.startsWith("http"));
+            return {
+              zillowUrl: item?.detailUrl || item?.url,
+              address: item?.address || item?.streetAddress,
+              price: toNumber(item?.price),
+              bedrooms: toNumber(item?.bedrooms ?? item?.beds),
+              bathrooms: toNumber(item?.bathrooms ?? item?.baths),
+              livingArea: toNumber(item?.livingArea ?? item?.livingAreaValue ?? item?.sqft),
+              daysOnZillow: toNumber(item?.daysOnZillow),
+              city: item?.city,
+              state: item?.state,
+              zipcode: item?.zipcode,
+              imageUrl:
+                item?.imgSrc ||
+                item?.image ||
+                item?.homeImage ||
+                item?.miniCardPhotos?.[0]?.url ||
+                item?.primaryPhoto?.url ||
+                item?.photos?.[0]?.url ||
+                mediaPhotos[0],
+              photos: mediaPhotos.length ? mediaPhotos : undefined,
+            };
+          })
         : [],
   },
 ];

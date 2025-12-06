@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { EvaluatedProperty, SearchSession, Client } from "@/lib/types";
+import { PropertyGallery } from "@/components/PropertyGallery";
 
 function formatUSD(value?: number) {
   if (value === undefined) return "-";
@@ -114,6 +115,8 @@ export default function ReviewPage() {
                 </a>
               </div>
             </div>
+
+            <PropertyGallery photos={property.photos} />
 
             {property.description && (
               <div className="text-sm text-slate-700">

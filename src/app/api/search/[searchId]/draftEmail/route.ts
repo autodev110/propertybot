@@ -37,6 +37,8 @@ export async function POST(_req: Request, { params }: Params) {
       selectedProps
     );
     session.finalEmail = {
+      to: client.email,
+      cc: [],
       subject: draft.subject,
       body: draft.body,
       includedPropertyIds: selectedProps.map((p) => p.id),

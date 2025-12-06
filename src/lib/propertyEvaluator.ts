@@ -27,6 +27,7 @@ export interface EnrichedPropertyInput {
   city: string;
   state: string;
   zipcode: string;
+  photos?: string[];
   price: number;
   beds: number;
   baths: number;
@@ -145,6 +146,7 @@ ${JSON.stringify(propertiesForLLM, null, 2)}
       city: base.city,
       state: base.state,
       zipcode: base.zipcode,
+      photos: base.photos,
       price: base.price,
       beds: base.beds,
       baths: base.baths,

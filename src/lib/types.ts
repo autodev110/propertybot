@@ -2,6 +2,7 @@ export interface Client {
   id: string;
   name: string;
   email: string;
+  notes?: string;
   createdAt: string;
   searches: SearchSessionSummary[];
 }
@@ -37,6 +38,7 @@ export interface EvaluatedProperty {
   city: string;
   state: string;
   zipcode: string;
+  photos?: string[];
   price: number;
   beds: number;
   baths: number;
@@ -59,6 +61,8 @@ export interface EvaluatedProperty {
 }
 
 export interface FinalEmailRecord {
+  to?: string;
+  cc?: string[];
   subject: string;
   body: string;
   includedPropertyIds: string[];
@@ -83,6 +87,7 @@ export interface SanitizedPropertyDetails {
   lastSale?: { date?: string; price?: number } | string;
   pricePerSquareFoot?: number;
   daysOnZillow?: number;
+  photos?: string[];
   nearbySchools?: {
     name?: string;
     rating?: number;

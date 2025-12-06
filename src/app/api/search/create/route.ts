@@ -73,6 +73,28 @@ export async function POST(req: Request) {
       const price = listing.price ?? details?.price ?? details?.zestimate;
       const beds = listing.bedrooms ?? details?.bedrooms;
       const baths = listing.bathrooms ?? details?.bathrooms;
+      const photos =
+        ((details as any)?.photos as string[] | undefined) ||
+        (listing.photos as string[] | undefined) ||
+        (listing.media?.allPropertyPhotos?.medium as string[] | undefined) ||
+        (listing.media?.allPropertyPhotos?.large as string[] | undefined) ||
+        ([listing.media?.propertyPhotoLinks?.highResolutionLink, listing.media?.propertyPhotoLinks?.mediumSizeLink].filter(
+          (u) => typeof u === "string" && u
+        ) as string[]) ||
+        (listing.imageUrl ? [listing.imageUrl] : undefined) ||
+        ((listing as any)?.imgSrc
+          ? [String((listing as any).imgSrc)]
+          : undefined);
+      if (process.env.NODE_ENV !== "production") {
+        console.info("[search/create] listing photos", {
+          address,
+          zillowUrl: listing.zillowUrl,
+          detailPhotosCount: Array.isArray((details as any)?.photos) ? (details as any).photos.length : 0,
+          listingImageUrl: listing.imageUrl,
+          imgSrc: (listing as any)?.imgSrc,
+          finalPhotosCount: photos?.length || 0,
+        });
+      }
       if (price === undefined || beds === undefined || baths === undefined) {
         console.warn("[search/create] skipped listing missing price/beds/baths", {
           address,
@@ -97,6 +119,7 @@ export async function POST(req: Request) {
         city: listing.city || details?.city || addressParts.city,
         state: listing.state || details?.state || addressParts.state,
         zipcode: listing.zipcode || details?.zipcode || addressParts.zipcode,
+        photos,
         price,
         beds,
         baths,

@@ -14,15 +14,29 @@ interface Params {
 }
 
 export async function POST(req: Request, { params }: Params) {
+  const emailValidator = emailDraftInputSchema.shape.to;
   let subject: string;
   let body: string;
+  let to: string;
+  let ccRaw: string | undefined;
   try {
     const json = await req.json();
     const parsed = emailDraftInputSchema.parse(json);
+    to = parsed.to.trim();
+    ccRaw = parsed.cc;
     subject = parsed.subject;
     body = parsed.body;
   } catch (err: any) {
     return NextResponse.json({ error: err?.message ?? "Invalid payload" }, { status: 400 });
+  }
+
+  const ccList = (ccRaw || "")
+    .split(",")
+    .map((email) => email.trim())
+    .filter(Boolean);
+  const invalidCc = ccList.filter((email) => !emailValidator.safeParse(email).success);
+  if (invalidCc.length > 0) {
+    return NextResponse.json({ error: `Invalid CC emails: ${invalidCc.join(", ")}` }, { status: 400 });
   }
 
   const session = await getSearchSession(params.searchId);
@@ -54,12 +68,15 @@ export async function POST(req: Request, { params }: Params) {
   try {
     const info = await transporter.sendMail({
       from,
-      to: client.email,
+      to,
+      cc: ccList.length ? ccList : undefined,
       subject,
       text: body,
     });
 
     session.finalEmail = {
+      to,
+      cc: ccList,
       subject,
       body,
       includedPropertyIds: session.selectedPropertyIds,
@@ -71,6 +88,8 @@ export async function POST(req: Request, { params }: Params) {
     await logEmailSend({
       clientId: client.id,
       searchId: session.id,
+      to,
+      cc: ccList,
       subject,
       body,
       includedPropertyIds: session.selectedPropertyIds,
